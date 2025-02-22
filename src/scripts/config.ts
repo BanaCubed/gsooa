@@ -1,17 +1,22 @@
-import { ref, type Ref } from "vue";
-
-export enum QuestionTypes {
-    Addition,
-    Subtraction,
-    Multiplication,
-    Division,
-    Exponentiation,
-    length // Exists for automating the incrementing of the below for loop
-}
+import { ref, type Ref } from 'vue';
 
 const activeQuestionTypes = ref<boolean[]>([]);
-for (let i = 0; i < QuestionTypes.length; i++) {
+for (let i = 0; i < 1 /* `TODO` *Find some way to automate this* */; i++) {
     activeQuestionTypes.value[i] = true;
+}
+
+/**
+ * @returns Array of indexes representing the active question types.
+ */
+export function getActiveQuestionTypes(): number[] {
+    const types: number[] = [];
+    for (let i = 0; i < activeQuestionTypes.value.length; i++) {
+        const questionType = activeQuestionTypes.value[i];
+        if (questionType === true) {
+            types.push(i);
+        }
+    }
+    return types;
 }
 
 console.log(activeQuestionTypes.value);
@@ -24,7 +29,7 @@ interface Config {
 }
 
 const config: Config = {
-    activeQuestionTypes
-}
+    activeQuestionTypes,
+};
 
 export default config;

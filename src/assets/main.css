@@ -1,4 +1,5 @@
 @import './base.css';
+@import 'material-symbols/rounded.css';
 
 #app {
   max-width: 1280px;
@@ -32,4 +33,23 @@ a,
 	grid-template-columns: 1fr 1fr; */
     padding: 0 2rem;
   }
+}
+
+button {
+  padding: 5px 5px;
+  background-color: var(--color-background-mute);
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  border-radius: 4px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button > span {
+  margin: 0 5px 0 0;
+}
+
+.material-symbols-rounded {
+  font-variation-settings: 'FILL' 1;
 }

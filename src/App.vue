@@ -1,13 +1,15 @@
-<script setup lang="ts">
-import NavHeader from "./components/NavHeader.vue";
-</script>
-
 <template>
-	<NavHeader />
-	<div id="content">
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium, dolor.
-	</div>
+    <NavHeader />
+    <MenuBody />
 </template>
 
+<script setup lang="ts">
+import NavHeader from './components/NavHeader.vue';
+import MenuBody from './components/MenuBody.vue';
+</script>
+
 <style scoped>
+#content {
+    width: fit-content;
+}
 </style>
