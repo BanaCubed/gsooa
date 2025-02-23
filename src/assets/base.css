@@ -56,6 +56,7 @@
   box-sizing: border-box;
   margin: 0;
   font-weight: normal;
+  font-family: Nunito, 'Sans Serif';
 }
 
 body {
@@ -63,7 +64,6 @@ body {
   color: var(--color-text);
   background: var(--color-background);
   line-height: 1.6;
-  font-family: Nunito, 'Sans Serif';
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

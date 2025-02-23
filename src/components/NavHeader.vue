@@ -10,14 +10,18 @@
             <button
                 v-for="tabButton in tabs"
                 :key="tabButton.name"
-                :disabled="tabButton.active.value"
+                :disabled="!tabButton.active.value"
                 :aria-label="tabButton.name"
                 :class="{ menuButton: true, activeTab: tab === tabButton.tab }"
                 :style="{
-                    '--background': tabButton.active.value ? tabButton.color : 'hsl(0, 0%, 15%)',
+                    '--background': tabButton.active.value ? tabButton.color : 'hsl(0, 0%, 10%)',
                     '--length': tabButton.name.length,
                 }"
-                v-on:click="() => {tab = tabButton.tab}"
+                v-on:click="
+                    () => {
+                        tab = tabButton.tab;
+                    }
+                "
             >
                 <span class="material-symbols-rounded">{{ tabButton.icon }}</span>
             </button>
@@ -120,7 +124,15 @@ import { activeTab, tab, tabs } from '@/scripts/tabs';
 }
 
 .menuButton:disabled {
-    color: rgb(from var(--foreground) r g b / 0.4);
+    color: rgb(from var(--color-text) r g b / 0.3);
+    pointer-events: none;
+}
+
+.menuButton:disabled .material-symbols-rounded {
+    font-variation-settings:
+        'opsz' 33,
+        'FILL' 0;
+    font-size: 1.1em;
 }
 
 .menuButton .material-symbols-rounded {
@@ -130,6 +142,7 @@ import { activeTab, tab, tabs } from '@/scripts/tabs';
     font-variation-settings:
         'opsz' 39,
         'FILL' 1;
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .menuButton.activeTab {

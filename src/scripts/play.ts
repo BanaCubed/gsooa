@@ -12,6 +12,7 @@ export interface PlayData {
      * Final score at the end of a play is calculated non-linearly based off this score.
      */
     score: number;
+    active: boolean;
     currentQuestion: Question;
 }
 
@@ -21,6 +22,7 @@ const playData: Ref<PlayData> = ref({
     health: 0,
     difficulty: 0,
     score: 0,
+    active: false,
     currentQuestion: {
         type: 0,
         variables: [],

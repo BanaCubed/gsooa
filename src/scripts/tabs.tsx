@@ -3,6 +3,7 @@ import PlayTab from '@/components/tabs/PlayTab.vue';
 import SettingsTab from '@/components/tabs/SettingsTab.vue';
 import { computed, ref, type ComputedRef } from 'vue';
 import type { JSX } from 'vue/jsx-runtime';
+import playData from './play';
 
 /*
  This file adapted from one of *my* projects
@@ -13,7 +14,7 @@ import type { JSX } from 'vue/jsx-runtime';
 export enum Tabs {
     Home,
     Settings,
-    Play
+    Play,
 }
 
 export enum Subtabs {}
@@ -42,7 +43,7 @@ export interface TabButtonData {
     /**
      * A ComputedRef representing whether the tab can be entered.
      */
-    active: ComputedRef<boolean>
+    active: ComputedRef<boolean>;
 }
 
 /**
@@ -56,18 +57,18 @@ export const tabs: TabButtonData[] = [
         tab: Tabs.Home,
         name: 'Home',
         icon: 'home',
-        color: 'hsl(120, 100%, 15%)',
+        color: 'hsl(120, 100%, 17%)',
         display: <HomeTab />,
-        active: computed(() => true),
+        active: computed(() => !playData.value.active),
     },
     {
         // Settings
         tab: Tabs.Settings,
         name: 'Settings',
         icon: 'build',
-        color: 'hsl(210, 20%, 20%)',
+        color: 'hsl(210, 20%, 25%)',
         display: <SettingsTab />,
-        active: computed(() => true),
+        active: computed(() => !playData.value.active),
     },
     {
         // Play

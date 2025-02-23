@@ -36,7 +36,7 @@ a,
 }
 
 button {
-  padding: 5px 5px;
+  padding: 5px 8px 5px 5px;
   background-color: var(--color-background-mute);
   color: var(--color-text);
   border: 2px solid var(--color-border);
@@ -44,6 +44,7 @@ button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 button > span {
