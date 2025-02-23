@@ -1,18 +1,20 @@
 <template>
     <div id="content">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium, dolor.
-        <button onclick="startPlay()">
-            <span class="material-symbols-rounded">pan_tool_alt</span>Button
-        </button>
+        <component :is="activeTab.display" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { startPlay } from '@/scripts/play';
+import { activeTab } from '@/scripts/tabs';
+import { render } from 'vue';
 
 defineExpose({
-    startPlay,
-});
+    render
+})
 </script>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+#content {
+    width: fit-content;
+}
+</style>

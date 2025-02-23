@@ -7,9 +7,3 @@
 import NavHeader from './components/NavHeader.vue';
 import MenuBody from './components/MenuBody.vue';
 </script>
-
-<style scoped>
-#content {
-    width: fit-content;
-}
-</style>
