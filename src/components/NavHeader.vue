@@ -10,10 +10,11 @@
             <button
                 v-for="tabButton in tabs"
                 :key="tabButton.name"
+                :disabled="tabButton.active.value"
                 :aria-label="tabButton.name"
                 :class="{ menuButton: true, activeTab: tab === tabButton.tab }"
                 :style="{
-                    '--background': tabButton.color,
+                    '--background': tabButton.active.value ? tabButton.color : 'hsl(0, 0%, 15%)',
                     '--length': tabButton.name.length,
                 }"
                 v-on:click="() => {tab = tabButton.tab}"
@@ -116,6 +117,10 @@ import { activeTab, tab, tabs } from '@/scripts/tabs';
     text-shadow: 0 0 5px black;
     position: relative;
     border-radius: 0;
+}
+
+.menuButton:disabled {
+    color: rgb(from var(--foreground) r g b / 0.4);
 }
 
 .menuButton .material-symbols-rounded {

@@ -1,19 +1,19 @@
-import AboutTab from '@/components/tabs/AboutTab.vue';
 import HomeTab from '@/components/tabs/HomeTab.vue';
 import PlayTab from '@/components/tabs/PlayTab.vue';
 import SettingsTab from '@/components/tabs/SettingsTab.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, type ComputedRef } from 'vue';
 import type { JSX } from 'vue/jsx-runtime';
 
-// This file adapted from one of *my* projects
-// All code here written by me, and during the assessment duration
-// https://code.incremental.social/banacubed/prisma-rpg/src/branch/main/src/data/tabs/tabs.ts
+/*
+ This file adapted from one of *my* projects
+ All code here written by me, and during the assessment duration
+ https://code.incremental.social/banacubed/prisma-rpg/src/branch/main/src/data/tabs/tabs.ts
+*/
 
 export enum Tabs {
     Home,
     Settings,
-    Play,
-    About
+    Play
 }
 
 export enum Subtabs {}
@@ -39,6 +39,10 @@ export interface TabButtonData {
      * Element to be rendered whilst the tab is active.
      */
     display: JSX.Element;
+    /**
+     * A ComputedRef representing whether the tab can be entered.
+     */
+    active: ComputedRef<boolean>
 }
 
 /**
@@ -54,6 +58,7 @@ export const tabs: TabButtonData[] = [
         icon: 'home',
         color: 'hsl(120, 100%, 15%)',
         display: <HomeTab />,
+        active: computed(() => true),
     },
     {
         // Settings
@@ -62,14 +67,7 @@ export const tabs: TabButtonData[] = [
         icon: 'build',
         color: 'hsl(210, 20%, 20%)',
         display: <SettingsTab />,
-    },
-    {
-        // About
-        tab: Tabs.About,
-        name: 'About',
-        icon: 'info_i',
-        color: 'hsl(180, 100%, 15%)',
-        display: <AboutTab />,
+        active: computed(() => true),
     },
     {
         // Play
@@ -78,6 +76,7 @@ export const tabs: TabButtonData[] = [
         icon: 'play_arrow',
         color: 'hsl(60, 100%, 15%)',
         display: <PlayTab />,
+        active: computed(() => true),
     },
 ];
 
