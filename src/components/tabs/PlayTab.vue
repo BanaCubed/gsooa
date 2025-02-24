@@ -3,7 +3,7 @@
         <button v-on:click="startPlay()" v-if="!playData.active" class="playButton">
             <span class="material-symbols-rounded">play_circle</span>Play
         </button>
-        <QuestionContainer v-else-if="playData.active" :key="playData.score - playData.health" />
+        <QuestionContainer v-else-if="playData.active" />
     </Transition>
 </template>
 

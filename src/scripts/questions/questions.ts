@@ -86,6 +86,9 @@ function questionsAvailableAtLevel(lvl: number): number[] {
         }
         return true;
     });
+    if (questions.length === 0) {
+        console.warn(`All possible questions are invalid at level ${lvl}. Ignoring config`);
+    }
     return questions;
 }
 

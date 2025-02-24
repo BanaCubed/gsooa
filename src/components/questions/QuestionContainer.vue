@@ -1,15 +1,17 @@
 <template>
     <div id="questionContainer">
-        Level {{ playData.level }} | {{ playData.score }} Points | {{ playData.health }}<br />
-        <component :is="questionComponents[playData.currentQuestion.type]" /><br />
-        <div ref="inputs">
-            <input
-                type="number"
-                v-for="answer in playData.currentQuestion.answer"
-                :key="answer.toString() + playData.seed"
-            />
+        <h3>Level {{ playData.level }} | {{ playData.score }} Points | {{ playData.health }}</h3><br />
+        <div id="question">
+            <component :is="questionComponents[playData.currentQuestion.type]" /><br />
+            <div ref="inputs" id="inputs">
+                <input
+                    type="number"
+                    v-for="answer in playData.currentQuestion.answer"
+                    :key="answer.toString() + playData.seed"
+                />
+            </div>
         </div>
-        <button v-on:click="answer()">submit</button>
+        <button v-on:click="answer()"><span class="material-symbols-rounded">edit</span>Answer</button>
     </div>
 </template>
 
@@ -63,6 +65,13 @@ defineExpose({
 </script>
 
 <style lang="css" scoped>
+#question {
+    margin-bottom: 20px;
+    background-color: var(--color-background-soft);
+    padding: 5px 5px;
+    border-radius: 4px;
+}
+
 #questionContainer:not(.v-enter-active):not(.v-leave-active) {
     translate: -50% 0;
 }
@@ -75,7 +84,7 @@ defineExpose({
 
 <style lang="css">
 input {
-    width: 100px;
+    width: 100%;
     background-color: var(--color-background-mute);
     border: 2px solid var(--color-border);
     border-radius: 4px;
