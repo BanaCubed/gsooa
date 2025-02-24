@@ -1,5 +1,5 @@
 import { ref, type Ref } from 'vue';
-import type { Question } from './questions/questions';
+import type { QuestionData } from './questions/questions';
 
 export interface PlayData {
     seed: number;
@@ -13,7 +13,7 @@ export interface PlayData {
      */
     score: number;
     active: boolean;
-    currentQuestion: Question;
+    currentQuestion: QuestionData;
 }
 
 const playData: Ref<PlayData> = ref({
@@ -32,6 +32,10 @@ const playData: Ref<PlayData> = ref({
 
 export default playData;
 
-export function startPlay(seed: number): void {
+export function startPlay(seed?: number): void {
+    seed = seed ?? Math.random() * 1e9;
     playData.value.seed = seed;
+    playData.value.active = true;
+    playData.value.score = 0;
+    playData.value.level = 1;
 }

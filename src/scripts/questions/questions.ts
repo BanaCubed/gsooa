@@ -1,7 +1,7 @@
 /**
  * Generic interface matching any question stored in the `playData` object.
  */
-export interface Question {
+export interface QuestionData {
     type: QuestionTypes;
     variables: number[];
     answer: number[];

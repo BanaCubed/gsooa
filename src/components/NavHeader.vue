@@ -14,7 +14,9 @@
                 :aria-label="tabButton.name"
                 :class="{ menuButton: true, activeTab: tab === tabButton.tab }"
                 :style="{
-                    '--background': tabButton.active.value ? tabButton.color : 'hsl(0, 0%, 10%)',
+                    '--background': tabButton.active.value
+                        ? tabButton.color
+                        : 'var(--color-background-mute)',
                     '--length': tabButton.name.length,
                 }"
                 v-on:click="
