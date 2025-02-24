@@ -4,7 +4,7 @@ import { QuestionTypes, type QuestionData, type QuestionProperties } from './que
 export const properties: QuestionProperties = {
     minLevel: 1,
     maxLevel: 10,
-    limits: (lvl) => [1.25 ** lvl * (lvl + 1), 1.35 ** lvl * lvl + 7],
+    limits: (lvl) => [1.25 ** lvl, 1.35 ** lvl * lvl + 7],
     inputs: 1,
     outputs: () => 2,
 };
@@ -32,7 +32,7 @@ class Addition {
             let num = prng(seed + i);
             const limits = this.#properties.limits(lvl, i);
             const range = limits[1] - limits[0];
-            num = Math.floor(num * range);
+            num = Math.round(num * range);
             this.variables.push(num);
         }
         // --- Answer Calculation ---

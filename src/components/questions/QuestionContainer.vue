@@ -1,6 +1,6 @@
 <template>
     <div id="questionContainer">
-        <h3>Level {{ playData.level }} | {{ playData.score }} Points | {{ playData.health }}</h3><br />
+        <h3>Level {{ playData.level }} | {{ playData.score }} Points | {{ playData.health }} HP</h3><br />
         <div id="question">
             <component :is="questionComponents[playData.currentQuestion.type]" /><br />
             <div ref="inputs" id="inputs">
@@ -8,6 +8,7 @@
                     type="number"
                     v-for="answer in playData.currentQuestion.answer"
                     :key="answer.toString() + playData.seed"
+                    name="John"
                 />
             </div>
         </div>
@@ -26,6 +27,7 @@ const questionComponents: JSX.Element[] = [<AdditionQuestion />];
 
 const inputRefs = useTemplateRef('inputs');
 
+// This function should really by in questions.ts or play.ts
 function answer() {
     // @ts-expect-error TS doesn't recognise that the only possible values for inputs to contain are input elements, so the extra type annotation is required to allow `element.value` to work.
     const inputs: HTMLInputElement[] = Array.from(inputRefs.value?.childNodes ?? []);
@@ -51,9 +53,15 @@ function answer() {
     }
     if (!correct) {
         playData.value.health--;
+        if (playData.value.health <= 0) {
+            playData.value.active = false;
+        }
     }
     if (correct) {
         playData.value.score++;
+        if (playData.value.score >= (1.1 ** playData.value.level) * 5 * playData.value.level) {
+            playData.value.level++;
+        }
     }
     playData.value.seed++;
     playData.value.currentQuestion = questions.generate(playData.value.level, playData.value.seed);
@@ -66,10 +74,13 @@ defineExpose({
 
 <style lang="css" scoped>
 #question {
+    margin: auto;
     margin-bottom: 20px;
     background-color: var(--color-background-soft);
     padding: 5px 5px;
     border-radius: 4px;
+    min-width: 160px;
+    width: fit-content;
 }
 
 #questionContainer:not(.v-enter-active):not(.v-leave-active) {
