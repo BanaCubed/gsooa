@@ -1,6 +1,6 @@
 <template>
     <Transition>
-        <button v-on:click="playData.active = true" v-if="!playData.active" class="playButton">
+        <button v-on:click="startPlay()" v-if="!playData.active" class="playButton">
             <span class="material-symbols-rounded">play_circle</span>Play
         </button>
         <QuestionContainer v-else-if="playData.active" :key="playData.score" />
@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import playData from '@/scripts/play';
+import playData, { startPlay } from '@/scripts/play';
 import QuestionContainer from '../questions/QuestionContainer.vue';
 </script>
 

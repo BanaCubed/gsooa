@@ -43,7 +43,7 @@ describe('Error throwing', () => {
     test('Level 10 - Should not error', () => {
         expect(() => new Addition(10, 77)).not.toThrowError();
     });
-    
+
     test('Level 11 - Should error', () => {
         expect(() => new Addition(11, 77)).toThrowErrorMatchingInlineSnapshot(
             `[Error: Question of type "Addition" has a maximum level of "1", whereas the current level is "11"]`,

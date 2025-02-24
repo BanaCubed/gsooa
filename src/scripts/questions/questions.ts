@@ -1,3 +1,7 @@
+import { getActiveQuestionTypes } from '../config';
+import { prng } from '../prng';
+import Addition, { properties as additionProperties } from './addition';
+
 /**
  * Generic interface matching any question stored in the `playData` object.
  */
@@ -14,6 +18,20 @@ export enum QuestionTypes {
     Division,
     Exponentiation,
 }
+
+interface QuestionTypeData {
+    name: string;
+    properties: QuestionProperties;
+}
+/**
+ * Utility array containing the properties of quesiton types. Used in other functions in this file.
+ */
+const questionTypesData: QuestionTypeData[] = [
+    {
+        name: 'Addition',
+        properties: additionProperties,
+    },
+];
 
 /**
  * The properties of a question type. This is not a generic type, and thus should not be extended.
@@ -53,3 +71,35 @@ export interface QuestionProperties {
      */
     outputs: (lvl: number) => number;
 }
+
+function questionsAvailableAtLevel(lvl: number): number[] {
+    const questions = getActiveQuestionTypes();
+    questions.filter((q) => {
+        const properties = questionTypesData[q].properties;
+        if (lvl < properties.minLevel) {
+            return false;
+        }
+        if (properties.maxLevel !== undefined) {
+            if (lvl > properties.maxLevel) {
+                return false;
+            }
+        }
+        return true;
+    });
+    return questions;
+}
+
+const questionClasses = [Addition];
+
+function generateQuestion(lvl: number, seed: number): QuestionData {
+    const types = questionsAvailableAtLevel(lvl);
+    const i = Math.floor(prng(seed) * types.length);
+    return new questionClasses[i](lvl, seed);
+}
+
+const questions = {
+    generate: generateQuestion, // These have different names to remove redundancy
+    availableAtlevel: questionsAvailableAtLevel,
+};
+
+export default questions;

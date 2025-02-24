@@ -1,5 +1,6 @@
 import { ref, type Ref } from 'vue';
 import type { QuestionData } from './questions/questions';
+import questions from './questions/questions';
 
 export interface PlayData {
     seed: number;
@@ -33,9 +34,12 @@ const playData: Ref<PlayData> = ref({
 export default playData;
 
 export function startPlay(seed?: number): void {
-    seed = seed ?? Math.random() * 1e9;
+    seed = seed ?? Math.random(); // The general size of the seed variable is irrelevant.
     playData.value.seed = seed;
     playData.value.active = true;
     playData.value.score = 0;
     playData.value.level = 1;
+    playData.value.health = 5;
+    playData.value.difficulty = 1;
+    playData.value.currentQuestion = questions.generate(1, seed);
 }

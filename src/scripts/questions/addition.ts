@@ -1,10 +1,10 @@
 import { prng } from '../prng';
 import { QuestionTypes, type QuestionData, type QuestionProperties } from './questions';
 
-const properties: QuestionProperties = {
+export const properties: QuestionProperties = {
     minLevel: 1,
     maxLevel: 10,
-    limits: (lvl) => [1.25 ** lvl * lvl, 1.35 ** lvl * lvl + 7],
+    limits: (lvl) => [1.25 ** lvl * (lvl + 1), 1.35 ** lvl * lvl + 7],
     inputs: 1,
     outputs: () => 2,
 };
@@ -13,7 +13,7 @@ class Addition {
     type = QuestionTypes.Addition;
     variables: number[] = [];
     answer: number[] = [];
-    #properties = properties; // This is seperate from the static property to allow for usage of `this`
+    #properties = properties; // This is seperate from the static property to allow for usage of the `this` keyword
 
     constructor(lvl: number, seed: number) {
         // --- Error Throwing ---

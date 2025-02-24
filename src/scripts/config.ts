@@ -19,7 +19,7 @@ export function getActiveQuestionTypes(): number[] {
     return types;
 }
 
-console.log(activeQuestionTypes.value);
+// console.log(activeQuestionTypes.value);
 
 interface Config {
     /**

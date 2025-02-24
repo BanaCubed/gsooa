@@ -1,9 +1,21 @@
 <template>
     <div id="questionContainer">
-        L1 | Q1<br />
-        1 + 1 = ?
+        Level {{ playData.level }} | {{ playData.score }} Points<br>
+        <component :is="questionComponents[playData.currentQuestion.type]" />
     </div>
 </template>
+
+<script setup lang="tsx">
+import playData from '@/scripts/play';
+import AdditionQuestion from './AdditionQuestion.vue';
+import type { JSX } from 'vue/jsx-runtime';
+
+const questionComponents: JSX.Element[] = [
+    <AdditionQuestion />
+]
+
+// comment
+</script>
 
 <style lang="css" scoped>
 #questionContainer:not(.v-enter-active):not(.v-leave-active) {
