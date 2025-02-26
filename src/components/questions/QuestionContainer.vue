@@ -1,6 +1,6 @@
 <template>
     <div id="questionContainer">
-        <h3>Level {{ playData.level }} | {{ playData.score }} Points | {{ playData.health }} HP</h3><br />
+        <h3>Level {{ playData.level }} | {{ playData.health }} HP<br><LevelBar /></h3><br />
         <div id="question">
             <component :is="questionComponents[playData.currentQuestion.type]" /><br />
             <div ref="inputs" id="inputs">
@@ -22,12 +22,13 @@ import AdditionQuestion from './AdditionQuestion.vue';
 import type { JSX } from 'vue/jsx-runtime';
 import { useTemplateRef } from 'vue';
 import questions from '@/scripts/questions/questions';
+import LevelBar from '../LevelBar.vue';
 
 const questionComponents: JSX.Element[] = [<AdditionQuestion />];
 
 const inputRefs = useTemplateRef('inputs');
 
-// This function should really by in questions.ts or play.ts
+// This has to be _here_, because it references inputRefs.
 function answer() {
     // @ts-expect-error TS doesn't recognise that the only possible values for inputs to contain are input elements, so the extra type annotation is required to allow `element.value` to work.
     const inputs: HTMLInputElement[] = Array.from(inputRefs.value?.childNodes ?? []);
