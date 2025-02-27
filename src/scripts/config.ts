@@ -1,7 +1,7 @@
 import { ref, type Ref } from 'vue';
 
 const activeQuestionTypes = ref<boolean[]>([]);
-for (let i = 0; i < 1 /* `TODO` *Find some way to automate this* */; i++) {
+for (let i = 0; i < 2 /* `TODO` *Find some way to automate this* */; i++) {
     activeQuestionTypes.value[i] = true;
 }
 

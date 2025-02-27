@@ -5,12 +5,6 @@ import { computed, ref, type ComputedRef } from 'vue';
 import type { JSX } from 'vue/jsx-runtime';
 import playData from './play';
 
-/*
- This file adapted from one of *my* projects
- All code here written by me, and during the assessment duration
- https://code.incremental.social/banacubed/prisma-rpg/src/branch/main/src/data/tabs/tabs.ts
-*/
-
 export enum Tabs {
     Home,
     Settings,

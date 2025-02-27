@@ -1,6 +1,7 @@
 <template>
     <div id="questionContainer">
-        <h3>Level {{ playData.level }} | {{ playData.health }} HP<br><LevelBar /></h3><br />
+        <h3>Level {{ playData.level }} | {{ playData.health }} HP<br /><LevelBar /></h3>
+        <br />
         <div id="question">
             <component :is="questionComponents[playData.currentQuestion.type]" /><br />
             <div ref="inputs" id="inputs">
@@ -12,19 +13,22 @@
                 />
             </div>
         </div>
-        <button v-on:click="answer()"><span class="material-symbols-rounded">edit</span>Answer</button>
+        <button v-on:click="answer()">
+            <span class="material-symbols-rounded">edit</span>Answer
+        </button>
     </div>
 </template>
 
 <script setup lang="tsx">
 import playData from '@/scripts/play';
 import AdditionQuestion from './AdditionQuestion.vue';
+import SubtractionQuestion from './SubtractionQuestion.vue';
 import type { JSX } from 'vue/jsx-runtime';
 import { useTemplateRef } from 'vue';
-import questions from '@/scripts/questions/questions';
+import questions from '@/scripts/questions/_questions';
 import LevelBar from '../LevelBar.vue';
 
-const questionComponents: JSX.Element[] = [<AdditionQuestion />];
+const questionComponents: JSX.Element[] = [<AdditionQuestion />, <SubtractionQuestion />];
 
 const inputRefs = useTemplateRef('inputs');
 
@@ -60,7 +64,7 @@ function answer() {
     }
     if (correct) {
         playData.value.score++;
-        if (playData.value.score >= (1.1 ** playData.value.level) * 5 * playData.value.level) {
+        if (playData.value.score >= 1.1 ** playData.value.level * 5 * playData.value.level) {
             playData.value.level++;
         }
     }

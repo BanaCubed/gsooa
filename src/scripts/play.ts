@@ -1,6 +1,6 @@
 import { ref, type Ref } from 'vue';
-import type { QuestionData } from './questions/questions';
-import questions from './questions/questions';
+import type { QuestionData } from './questions/_questions';
+import questions from './questions/_questions';
 
 export interface PlayData {
     seed: number;

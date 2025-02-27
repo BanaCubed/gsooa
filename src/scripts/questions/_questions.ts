@@ -1,6 +1,7 @@
 import { getActiveQuestionTypes } from '../config';
 import { prng } from '../prng';
 import Addition, { properties as additionProperties } from './addition';
+import Subtraction, { properties as subtractionProperties } from "./subtraction";
 
 /**
  * Generic interface matching any question stored in the `playData` object.
@@ -30,6 +31,10 @@ const questionTypesData: QuestionTypeData[] = [
     {
         name: 'Addition',
         properties: additionProperties,
+    },
+    {
+        name: 'Subtraction',
+        properties: subtractionProperties,
     },
 ];
 
@@ -74,29 +79,26 @@ export interface QuestionProperties {
 
 function questionsAvailableAtLevel(lvl: number): number[] {
     const questions = getActiveQuestionTypes();
-    questions.filter((q) => {
-        const properties = questionTypesData[q].properties;
-        if (lvl < properties.minLevel) {
-            return false;
+    for (let i = 0; i < questions.length; i++) {
+        const properties = questionTypesData[i].properties;
+        properties.maxLevel ??= Infinity;
+        if (lvl < properties.minLevel || lvl > properties.maxLevel) {
+            questions.splice(i);
         }
-        if (properties.maxLevel !== undefined) {
-            if (lvl > properties.maxLevel) {
-                return false;
-            }
-        }
-        return true;
-    });
+    }
     if (questions.length === 0) {
         console.warn(`All possible questions are invalid at level ${lvl}. Ignoring config`);
     }
     return questions;
 }
 
-const questionClasses = [Addition];
+const questionClasses = [Addition, Subtraction];
 
 function generateQuestion(lvl: number, seed: number): QuestionData {
     const types = questionsAvailableAtLevel(lvl);
-    const i = Math.floor(prng(seed) * types.length);
+    console.log(types);
+    let i = Math.floor(prng(seed) * types.length);
+    i = types[i];
     return new questionClasses[i](lvl, seed);
 }
 

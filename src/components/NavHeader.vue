@@ -1,9 +1,3 @@
-<!--
- This file adapted from one of *my* projects
- All code here written by me, and during the assessment duration
- https://code.incremental.social/banacubed/prisma-rpg/src/branch/main/src/data/tabs/Header.vue
- -->
-
 <template>
     <div id="header">
         <div id="tabs">
