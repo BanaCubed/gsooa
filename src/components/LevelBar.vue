@@ -10,7 +10,7 @@ import playData from '@/scripts/play';
 
 <style lang="css" scoped>
 @property --fill {
-    syntax: "<number>";
+    syntax: '<number>';
     inherits: false;
     initial-value: 0;
 }
@@ -25,7 +25,9 @@ import playData from '@/scripts/play';
 }
 
 #levelFill {
-    width: v-bind("((playData.score - ((1.1 ** (playData.level - 1)) * 5 * (playData.level - 1))) / ((1.1 ** playData.level) * 5 * playData.level - ((1.1 ** (playData.level - 1)) * 5 * (playData.level - 1))) * 250) + 'px'");
+    width: v-bind(
+        "((playData.score - ((1.1 ** (playData.level - 1)) * 5 * (playData.level - 1))) / ((1.1 ** playData.level) * 5 * playData.level - ((1.1 ** (playData.level - 1)) * 5 * (playData.level - 1))) * 250) + 'px'"
+    );
     min-height: 12px;
     background-color: orange;
     border: 0 solid var(--color-text);

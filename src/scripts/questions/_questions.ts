@@ -1,7 +1,7 @@
 import { getActiveQuestionTypes } from '../config';
 import { prng } from '../prng';
 import Addition, { properties as additionProperties } from './addition';
-import Subtraction, { properties as subtractionProperties } from "./subtraction";
+import Subtraction, { properties as subtractionProperties } from './subtraction';
 
 /**
  * Generic interface matching any question stored in the `playData` object.
