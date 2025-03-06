@@ -1,6 +1,6 @@
 <template>
     <div id="questionContainer">
-        <h3>Level {{ playData.level }} | {{ playData.health }} HP<br /><LevelBar /></h3>
+        <h3>Level {{ playData.level }}<br /><span class="material-symbols-rounded" :class="{'empty': playData.health <= i}" v-for="(hp, i) in new Array(5)">favorite</span><br /><LevelBar /></h3>
         <br />
         <div id="question">
             <component :is="questionComponents[playData.currentQuestion.type]" /><br />
@@ -95,6 +95,11 @@ defineExpose({
 #questionContainer {
     position: absolute;
     left: 50%;
+}
+
+.empty {
+    font-variation-settings: 'FILL' 0;
+    transition: 0.5s all cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 </style>
 
