@@ -1,3 +1,0 @@
-# gsooA
-
-Placeholder text.
