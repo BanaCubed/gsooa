@@ -46,24 +46,24 @@ export interface TabButtonData {
  * It is recommended to add new tabs to the start of the array.
  */
 export const tabs: TabButtonData[] = [
-    {
-        // Home
-        tab: Tabs.Home,
-        name: 'Home',
-        icon: 'home',
-        color: 'hsl(120, 100%, 17%)',
-        display: <HomeTab />,
-        active: computed(() => !playData.value.active),
-    },
-    {
-        // Settings
-        tab: Tabs.Settings,
-        name: 'Settings',
-        icon: 'build',
-        color: 'hsl(210, 20%, 25%)',
-        display: <SettingsTab />,
-        active: computed(() => !playData.value.active),
-    },
+    // {
+    //     // Home
+    //     tab: Tabs.Home,
+    //     name: 'Home',
+    //     icon: 'home',
+    //     color: 'hsl(120, 100%, 17%)',
+    //     display: <HomeTab />,
+    //     active: computed(() => !playData.value.active),
+    // },
+    // {
+    //     // Settings
+    //     tab: Tabs.Settings,
+    //     name: 'Settings',
+    //     icon: 'build',
+    //     color: 'hsl(210, 20%, 25%)',
+    //     display: <SettingsTab />,
+    //     active: computed(() => !playData.value.active),
+    // },
     {
         // Play
         tab: Tabs.Play,
@@ -78,5 +78,5 @@ export const tabs: TabButtonData[] = [
 /**
  * A `Ref` representing the current tab.
  */
-export const tab = ref<Tabs>(Tabs.Home);
+export const tab = ref<Tabs>(Tabs.Play);
 export const activeTab = computed(() => tabs.filter((t) => t.tab === tab.value)[0]);

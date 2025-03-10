@@ -1,15 +1,23 @@
 <template>
     <div id="questionContainer">
-        <h3>Level {{ playData.level }}<br /><span class="material-symbols-rounded" :class="{'empty': playData.health <= i}" v-for="(hp, i) in new Array(5)">favorite</span><br /><LevelBar /></h3>
+        <h3>
+            Level {{ playData.level }}<br /><span
+                class="material-symbols-rounded"
+                :class="{ empty: playData.health <= i }"
+                v-for="(hp, i) in new Array(5)"
+                >favorite</span
+            ><br /><LevelBar />
+        </h3>
         <br />
         <div id="question">
             <component :is="questionComponents[playData.currentQuestion.type]" /><br />
             <div ref="inputs" id="inputs">
                 <input
                     type="number"
-                    v-for="answer in playData.currentQuestion.answer"
-                    :key="answer.toString() + playData.seed"
+                    v-for="(answer, i) in playData.currentQuestion.answer"
+                    placeholder="0"
                     name="John"
+                    :id="i === 0 ? 'firstInput' : ''"
                 />
             </div>
         </div>
@@ -24,9 +32,15 @@ import playData from '@/scripts/play';
 import AdditionQuestion from './AdditionQuestion.vue';
 import SubtractionQuestion from './SubtractionQuestion.vue';
 import type { JSX } from 'vue/jsx-runtime';
-import { useTemplateRef } from 'vue';
+import { useTemplateRef, watch } from 'vue';
 import questions from '@/scripts/questions/_questions';
 import LevelBar from '../LevelBar.vue';
+
+document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Enter') {
+        answer();
+    }
+});
 
 const questionComponents: JSX.Element[] = [<AdditionQuestion />, <SubtractionQuestion />];
 
@@ -55,6 +69,7 @@ function answer() {
             // Better safe than sorry
             return;
         }
+        element.value = '';
     }
     if (!correct) {
         playData.value.health--;

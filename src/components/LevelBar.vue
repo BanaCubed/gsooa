@@ -36,11 +36,17 @@ import playData from '@/scripts/play';
     animation: levelBar 3s linear infinite 0s;
     background-position-x: left;
     --levelBarProgress: 0;
-    background-image: repeating-linear-gradient(-45deg, transparent calc(calc(var(--levelBarProgress) * -20px) - 10px), transparent calc(var(--levelBarProgress) * -20px), rgba(255, 255, 255, 0.25) calc(var(--levelBarProgress) * -20px), rgba(255, 255, 255, 0.25) calc(calc(var(--levelBarProgress) * -20px) + 10px));
+    background-image: repeating-linear-gradient(
+        -45deg,
+        transparent calc(calc(var(--levelBarProgress) * -20px) - 10px),
+        transparent calc(var(--levelBarProgress) * -20px),
+        rgba(255, 255, 255, 0.25) calc(var(--levelBarProgress) * -20px),
+        rgba(255, 255, 255, 0.25) calc(calc(var(--levelBarProgress) * -20px) + 10px)
+    );
 }
 
 @property --levelBarProgress {
-    syntax: "<number>";
+    syntax: '<number>';
     initial-value: 0;
     inherits: true;
 }
