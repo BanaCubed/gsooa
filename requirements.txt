@@ -1,3 +1,5 @@
 nicegui
 pytest
 flake8
+pytest-asyncio
+pytest-selenium

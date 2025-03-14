@@ -1,4 +1,5 @@
 import math
+from app.prng import prng
 
 
 # region Generic
@@ -78,6 +79,15 @@ class AdditionQuestion(Question):
     def __init__(self, seed: int, level: int):
         super().__init__(seed, level)
 
+        self.values = [
+            math.floor(prng(
+                seed,
+                self.minValue(level),
+                self.maxValue(level)
+            )) for _ in range(2)
+        ]
+        self.answer = sum(self.values)
+
     @staticmethod
     def minValue(level: int) -> int:
         """
@@ -91,7 +101,7 @@ class AdditionQuestion(Question):
         """
         if level < 0:
             raise ValueError("Level cannot be below 0")
-        return math.floor(10 ** level)
+        return 0 if level >= 3 else 1
 
     @staticmethod
     def maxValue(level: int) -> int:
@@ -106,8 +116,16 @@ class AdditionQuestion(Question):
         """
         if level < 0:
             raise ValueError("Level cannot be below 0")
-        return math.ceil(10 ** (level + 1))
+        return math.ceil((1.25 ** level) * 10)
+
+    def __str__(self):
+        text = ""
+        for i in range(len(self.values)):
+            text += f"{self.values[i]}"
+            if i < len(self.values) - 1:
+                text += " + "
+        return text + " = ?"
 # endregion
 
 
-print(Question(1, 1))
+print(AdditionQuestion(1, 1))

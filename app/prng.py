@@ -1,14 +1,16 @@
-from main import unstableState
+from app.state import unstableState
 
 
 # region PRNG
-def prng(seed: int | None = None) -> float:
+def prng(seed: int | None = None, min: int = 0, max: int = 1) -> float:
     """
     `prng()` takes an optional input seed, defaulting to `unstableState["seed"]`.
     The function then returns a pseudo-random number between 0 and 1.
 
     Args:
     - `seed`: The seed to use for the PRNG. If not provided, the default seed will be used.
+    - `min`: The minimum value to return.
+    - `max`: The maximum value to return.
 
     Returns:
     - A pseudo-random number between 0 and 1.
@@ -28,7 +30,7 @@ def prng(seed: int | None = None) -> float:
     unstableState.update({"prngRuns": unstableState["prngRuns"] + 1})
 
     # Return the output value
-    return x / 2**32
+    return x / 2**64 * (max - min) + min
 # endregion
 
 
