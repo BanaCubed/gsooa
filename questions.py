@@ -1,5 +1,8 @@
 import math
-from app.prng import prng
+
+from jinja2 import Undefined
+from prng import prng
+from state import unstableState
 
 
 # region Generic
@@ -9,25 +12,45 @@ class Question:
 
     Initialization Args:
     - `seed`: The seed used to generate the question
-    - `level`: The level of the question
+    - `level`: The level of the question used to determine the difficulty
 
-    Properties:
-    - `answer`: The correct answer to the question
-    - `values`: A list of values that are used within rendering the question
+    Instance Properties:
     - `seed`: The seed used to generate the question
-    - `level`: The level of the question
+    - `level`: The level at which the question was generated
+    - `answer`: The correct answer to the question
+    - `values`:  list of values used to calculate the question's answer and stringification
+
+    Static Properties:
+    - `minLevel`: The minimum level that this question type can appear at
 
     Methods:
     - `verifyAnswer(answer: str) -> bool`: Verifies whether a given answer is correct
     """
     seed: int
+    """
+    The seed used to generate the question
+    """
     level: int
+    """
+    The level at which the question was generated
+    """
     values: list[float]
+    """
+    A list of values used to calculate the question's answer and stringification
+    """
     answer: float
+    """
+    The correct answer to the question
+    """
+    minLevel: int
+    """
+    `static`
+    The minimum level that this question type can appear at
+    """
 
     def __init__(self, seed: int, level: int):
-        self.seed = seed
-        self.level = level
+        self.seed = seed if seed is not Undefined else unstableState.seed
+        self.level = level if level is not Undefined else unstableState.level
 
         self.values = []
         self.answer = 0
@@ -43,11 +66,11 @@ class Question:
             `bool`: Whether the answer is correct
         """
         try:
-            float(answer)
+            _answer = float(answer)
         except ValueError:
             raise ValueError("Answer must be a number")
 
-        return self.answer == answer
+        return self.answer == _answer
 
     def __str__(self):
         return f"Unset Question Type - Seed: {self.seed} - Level: {self.level}"
@@ -63,11 +86,14 @@ class AdditionQuestion(Question):
     - `seed`: The seed used to generate the question
     - `level`: The level of the question
 
-    Properties:
-    - `answer`: The correct answer to the question
-    - `values`: A list of values that are used within rendering the question
+    Instance Properties:
     - `seed`: The seed used to generate the question
-    - `level`: The level of the question
+    - `level`: The level at which the question was generated
+    - `answer`: The correct answer to the question
+    - `values`:  list of values used to calculate the question's answer and stringification
+
+    Static Properties:
+    - `minLevel`: The minimum level that this question type can appear at
 
     Public Methods:
     - `verifyAnswer(answer: str) -> bool`: Verifies whether a given answer is correct
@@ -76,6 +102,7 @@ class AdditionQuestion(Question):
     - `minValue(level: int) -> int`: Returns the minimum value for a given level
     - `maxValue(level: int) -> int`: Returns the maximum value for a given level
     """
+
     def __init__(self, seed: int, level: int):
         super().__init__(seed, level)
 
@@ -116,7 +143,7 @@ class AdditionQuestion(Question):
         """
         if level < 0:
             raise ValueError("Level cannot be below 0")
-        return math.ceil((1.25 ** level) * 10)
+        return math.ceil((1.25 ** level) * 7)
 
     def __str__(self):
         text = ""
@@ -128,4 +155,25 @@ class AdditionQuestion(Question):
 # endregion
 
 
-print(AdditionQuestion(1, 1))
+# region Collection
+questionTypes = [AdditionQuestion]
+"""
+A list of all question types.
+
+If a list of types is needed, use `gatherQuestionTypes(level: int) -> list` instead.
+"""
+
+
+def gatherQuestionTypes(level: int) -> list:
+    """
+    Returns a list of all question types possible at a given level
+
+    Args:
+    - `level`
+    """
+    types = []
+    for questionType in questionTypes:
+        if questionType.minLevel <= level:
+            types.append(questionType)
+    return types
+# endregion

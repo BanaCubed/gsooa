@@ -1,5 +1,5 @@
 from nicegui import ui
-from app.state import unstableState
+from state import unstableState
 
 
 # region Rendering

@@ -2,16 +2,30 @@ from typing import TypedDict
 
 
 # region State Setup
-class UnstableState(TypedDict):
+class UnstableStateType(TypedDict):
     running: bool
+    """
+    Whether or not the game is currently active
+    """
     seed: int
+    """
+    The current games seed used for PRNG calculations
+    """
     prngRuns: int
+    """
+    The number of times PRNG has been used in the current game
+    """
+    level: int
+    """
+    The current difficulty level the running game has reached
+    """
 
 
-unstableState: UnstableState = {
-    "running": False,  # Whether the game is currently running
-    "seed": 0,  # Current seed used for PRNG calculations
-    "prngRuns": 0,  # Number of times the PRNG has been called
+unstableState: UnstableStateType = {
+    "running": False,
+    "seed": 0,
+    "prngRuns": 0,
+    "level": 0,
 }
 """
 `unstableState` tracks the mutable game state that changes frequently during a session.
@@ -23,11 +37,11 @@ Fields:
 """
 
 
-class StableState(TypedDict):
+class StableStateType(TypedDict):
     totalScore: int
 
 
-stableState: StableState = {
+stableState: StableStateType = {
     "totalScore": 0,  # Total accumulated score across all games
 }
 """

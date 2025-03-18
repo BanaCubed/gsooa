@@ -1,4 +1,4 @@
-from app.prng import prng
+from prng import prng
 
 
 class TestPRNG:
