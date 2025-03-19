@@ -1,6 +1,5 @@
 import math
 
-from jinja2 import Undefined
 from prng import prng
 from state import unstableState
 
@@ -48,9 +47,9 @@ class Question:
     The minimum level that this question type can appear at
     """
 
-    def __init__(self, seed: int, level: int):
-        self.seed = seed if seed is not Undefined else unstableState.seed
-        self.level = level if level is not Undefined else unstableState.level
+    def __init__(self, seed: int | None = None, level: int | None = None):
+        self.seed = seed if seed is not None else unstableState["seed"]
+        self.level = level if level is not None else unstableState["level"]
 
         self.values = []
         self.answer = 0
@@ -60,10 +59,10 @@ class Question:
         Verifies whether a given answer is correct.
 
         Args:
-            `answer`: The answer to the question
+        - `answer`: The answer to the question
 
         Returns:
-            `bool`: Whether the answer is correct
+        - `bool`: Whether the answer is correct
         """
         try:
             _answer = float(answer)
@@ -102,15 +101,16 @@ class AdditionQuestion(Question):
     - `minValue(level: int) -> int`: Returns the minimum value for a given level
     - `maxValue(level: int) -> int`: Returns the maximum value for a given level
     """
+    minLevel = 1
 
-    def __init__(self, seed: int, level: int):
+    def __init__(self, seed: int | None = None, level: int | None = None):
         super().__init__(seed, level)
 
         self.values = [
-            math.floor(prng(
-                seed,
-                self.minValue(level),
-                self.maxValue(level)
+            math.floor(prng(  # "x if x is not None else y" is required here to avoid type issues
+                seed if seed is not None else unstableState["seed"],
+                self.minValue(level if level is not None else unstableState["level"]),
+                self.maxValue(level if level is not None else unstableState["level"])
             )) for _ in range(2)
         ]
         self.answer = sum(self.values)
@@ -121,13 +121,13 @@ class AdditionQuestion(Question):
         Returns the minimum value for a given level.
 
         Args:
-            `level`: The level of the question
+        - `level`: The level of the question
 
         Returns:
-            The minimum value for the given level
+        - The minimum value for the given level
         """
-        if level < 0:
-            raise ValueError("Level cannot be below 0")
+        if level < AdditionQuestion.minLevel:
+            raise ValueError(f"Level cannot be below {AdditionQuestion.minLevel}")
         return 0 if level >= 3 else 1
 
     @staticmethod
@@ -136,13 +136,13 @@ class AdditionQuestion(Question):
         Returns the maximum value for a given level.
 
         Args:
-            `level`: The level of the question
+        - `level`: The level of the question
 
         Returns:
-            The maximum value for the given level
+        - The maximum value for the given level
         """
-        if level < 0:
-            raise ValueError("Level cannot be below 0")
+        if level < AdditionQuestion.minLevel:
+            raise ValueError(f"Level cannot be below {AdditionQuestion.minLevel}")
         return math.ceil((1.25 ** level) * 7)
 
     def __str__(self):
@@ -164,12 +164,15 @@ If a list of types is needed, use `gatherQuestionTypes(level: int) -> list` inst
 """
 
 
-def gatherQuestionTypes(level: int) -> list:
+def gatherQuestionTypes(level: int) -> list[type[Question]]:
     """
-    Returns a list of all question types possible at a given level
+    Returns a list of all question classes allowed at a given level
 
     Args:
-    - `level`
+    - `level`: The level to check with minLevel
+
+    Returns:
+    - A list of all question classes allowed at the given level
     """
     types = []
     for questionType in questionTypes:
@@ -177,3 +180,31 @@ def gatherQuestionTypes(level: int) -> list:
             types.append(questionType)
     return types
 # endregion
+
+
+# region Generation
+def generateQuestion(seed: int | None = None, level: int | None = None) -> Question:
+    """
+    Generates a question of a given level.
+
+    Args:
+    - `seed`: The seed used to generate the question
+    - `level`: The level of the question
+
+    Returns:
+    - A question of the given level
+    """
+    seed = seed if seed is not None else unstableState["seed"]
+    level = level if level is not None else unstableState["level"]
+    types = gatherQuestionTypes(level)
+    if len(types) == 0:
+        # May be helpful to show the level for future debugging
+        raise ValueError(f"No question types found for level {level}")
+    # TODO: add error handling
+    questionType = types[math.floor(prng(seed, 0, len(types)))]
+    question = questionType(seed, level)
+    return question
+# endregion
+
+
+print(generateQuestion())

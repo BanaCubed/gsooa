@@ -40,13 +40,13 @@ def lcg(x: int, a: int = 6364136223846793005, c: int = 1442695040888963407, m: i
     Applies the Linear Congruential Generator (LCG) algorithm using MMIX parameters by default.
 
     Args:
-        `x`: The input seed value
-        `a`: Multiplier constant
-        `c`: Increment constant
-        `m`: Modulus constant
+    - `x`: The input seed value
+    - `a`: Multiplier constant
+    - `c`: Increment constant
+    - `m`: Modulus constant
 
     Returns:
-        The next value in the LCG sequence
+    - The next value in the LCG sequence
 
     The LCG is defined by the recurrence relation:
     `R = (a * x + c) % m`
