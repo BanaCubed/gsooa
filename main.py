@@ -1,19 +1,21 @@
-from nicegui import ui
-from state import unstableState
+from time import sleep
+import os
 
 
-# region Rendering
-with ui.element("div").classes(
-    "w-full h-full flex-col gap-4 flex items-center"
-    " justify-center bg-gray-200 max-w-xl p-4 rounded-lg m-auto"
-):
-    with ui.element("h1").classes("text-2xl font-bold"):
-        ui.label("gsooA")
-    ui.button(
-        "Start",
-        on_click=lambda: unstableState.update({"running": True}),
-        icon="play_arrow"
-    ).bind_visibility_from(unstableState, "running", value=False)
+# region Main
+def main():
+    print("Hello, World!")
+    sleep(1)
+    clear()
+    sleep(1)
+    main()
 # endregion
 
-ui.run()
+
+# region Utils
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+# endregion
+
+
+main()

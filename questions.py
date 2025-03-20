@@ -156,7 +156,7 @@ class AdditionQuestion(Question):
 
 
 # region Collection
-questionTypes = [AdditionQuestion]
+questionTypes: list[type[Question]] = [AdditionQuestion]
 """
 A list of all question types.
 
@@ -207,4 +207,5 @@ def generateQuestion(seed: int | None = None, level: int | None = None) -> Quest
 # endregion
 
 
-print(generateQuestion())
+for i in range(10):
+    print(generateQuestion(1, i+1))
