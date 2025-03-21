@@ -200,7 +200,7 @@ def generateQuestion(seed: int | None = None, level: int | None = None) -> Quest
     if len(types) == 0:
         # May be helpful to show the level for future debugging
         raise ValueError(f"No question types found for level {level}")
-    # TODO: add error handling
+    # TODO add error handling
     questionType = types[math.floor(prng(seed, 0, len(types)))]
     question = questionType(seed, level)
     return question
