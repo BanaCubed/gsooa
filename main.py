@@ -1,6 +1,7 @@
-import math
 from time import sleep
 import os
+
+from render import clear, render
 
 
 # region Main
@@ -27,15 +28,15 @@ def menu():
     render(
         "gsooA",
         "",
-        "| Play   ",
-        # "| Options",
-        "| Exit   ",
-        "|        "
+        "| play",
+        # "| options",
+        "| exit",
+        "|"
     )
 
     while True:
         key = "".join(
-            input(" " * (math.floor(os.get_terminal_size().columns/2) - 5) + "| > ").lower().split()
+            input("     | > ").lower().split()
         )
         if key in [
             "play",
@@ -45,6 +46,7 @@ def menu():
             "startgame",
             "begingame",
             "playgame",
+            "game",
         ]:
             break
         # elif key in [
@@ -80,34 +82,14 @@ def menu():
         render(
             "gsooA",
             "",
-            "Play",
-            "Options",
-            "Exit",
-            "",
-            "Invalid input",
-            "Please try again",
-            "",
-            f"|{key}|",
+            "| play",
+            # "| options",
+            "| exit",
+            "|"
+            "| input could not be interpereted",
+            "| try again"
+            "|"
         )
-# endregion
-
-
-# region Utils
-def clear():
-    """Clears the terminal."""
-    os.system("cls" if os.name == "nt" else "clear")
-
-
-def render(*text: str) -> None:
-    """Renders centered text to the terminal."""
-    clear()
-    terminal_width = os.get_terminal_size().columns
-    full_text = ""
-    for line in text:
-        full_text += line.center(terminal_width) + (
-            "\n" if text.index(line) < text.__len__() - 1 else ""
-        )
-    print(full_text)
 # endregion
 
 

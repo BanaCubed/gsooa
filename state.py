@@ -1,7 +1,5 @@
 import json
-from typing import TypedDict, TYPE_CHECKING
-
-from jinja2 import Undefined
+from typing import Any, TypedDict, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from questions import Question
@@ -21,6 +19,12 @@ class UnstableStateType(TypedDict):
     """The current score of the running game"""
     question: 'Question | None'
     """The current question being answered"""
+    num: int
+    """The index of the current question being answered in the current game"""
+    hp: int
+    """The remaining questions answered incorrectly until the current game is lost"""
+    xp: int
+    """Cumulative experience points earned in the current game"""
 
 
 unstableState: UnstableStateType = {
@@ -30,6 +34,9 @@ unstableState: UnstableStateType = {
     "level": 0,
     "score": 0,
     "question": None,
+    "num": 0,
+    "hp": 0,
+    "xp": 0,
 }
 """
 A dictionary representing values shared across files that are not saved across sessions
@@ -43,6 +50,8 @@ class StableStateType(TypedDict):
     """The total score accumulated across all completed games"""
     bestScore: int
     """The highest amount of score reached within a singular game"""
+    bestLevel: int
+    """The highest level reached within a sungular game"""
 
 
 # TODO change unstableState to use something similar
@@ -54,25 +63,29 @@ class _StableStateClass:
     """The actual state"""
 
     def __init__(self) -> None:
-        defaultState: StableStateType = {
+        self.value = {
             "totalScore": 0,
             "bestScore": 0,
+            "bestLevel": 0,
         }
         try:
             open("userdata", "x")
-            self.value = defaultState
         except FileExistsError:
             try:
                 with open("userdata", "r") as file:
-                    self.value = json.loads(file.read().replace("'", '"'))
-                for attr in defaultState:
-                    if self.value[attr] != Undefined:
-                        self.value[attr] = defaultState[attr]
+                    loadedState: StableStateType = json.loads(
+                        file.read().replace("'", '"')
+                    )
+                for attr in self.value:
+                    try:
+                        self.value[attr] = loadedState[attr]
+                    except KeyError:
+                        pass
             except json.decoder.JSONDecodeError:
-                self.value = defaultState
+                pass
 
-    def setValue(self, name, value):
-        self.value.update({name: value})
+    def setValue(self, name: str, value: Any):
+        self.value.update({name: value})  # type: ignore
         with open("userdata", "w") as file:
             file.write(str(self.value))
 
@@ -85,3 +98,7 @@ A variables containing two properties.
 2. `setValue(name, value)`: A function to update `value`, and saves it to ./userdata
 """
 # endregion
+
+
+if __name__ == "__main__":
+    print(stableState.value)

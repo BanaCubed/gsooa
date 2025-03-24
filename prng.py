@@ -22,7 +22,7 @@ def prng(seed: int | None = None, min: int = 0, max: int = 1) -> float:
     """
     # Setting up the seed value to be slightly less predictable
     x: int = (seed if seed is not None else unstableState["seed"]) ^ unstableState["prngRuns"]
-    x = (x << 13) ^ x
+    x = (x << 13) * x
 
     x = lcg(x)
 

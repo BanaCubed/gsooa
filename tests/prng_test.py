@@ -4,13 +4,13 @@ from prng import prng, lcg
 # region PRNG Tests
 class TestPRNG:
     def test_prng_seed_consistency(self):
-        assert prng(1) == 0.6674361971562441
+        assert prng(1) == 0.32243568116182475
 
     def test_prng_same_seed_differing(self):
         assert prng(1) != prng(1)
 
     def test_prng_seed_consistency_with_min_max(self):
-        assert prng(1, 0, 10) == 2.566637394341944
+        assert prng(1, 0, 10) == 0.5511676001241741
 
     def test_prng_same_seed_differing_with_min_max(self):
         assert prng(1, 0, 10) != prng(1, 0, 10)

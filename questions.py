@@ -207,5 +207,6 @@ def generateQuestion(seed: int | None = None, level: int | None = None) -> Quest
 # endregion
 
 
-for i in range(10):
-    print(generateQuestion(1, i+1))
+if __name__ == "__main__":
+    for i in range(200):
+        print(generateQuestion(None, 50).answer)
