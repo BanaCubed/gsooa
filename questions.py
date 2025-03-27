@@ -191,9 +191,9 @@ class SubtractionQuestion(Question):
                 math.floor((level if level is not None else unstableState["level"]) / 7) + 2)
         ]
         self.answer = self.values[0]
-        for value in self.values:
-            if self.values.index(value) != 0:
-                self.answer -= value
+        _values = self.values[1:]
+        for value in _values:
+            self.answer -= value
 
     @staticmethod
     def minValue(level: int, index: int) -> int:

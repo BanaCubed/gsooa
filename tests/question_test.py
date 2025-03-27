@@ -93,9 +93,8 @@ class TestSubtractionQuestion:
     def test_subtraction_verifyAnswer(self):
         for i in range(20):
             q = SubtractionQuestion(1, max(i, 2))
-            vals = q.values
-            ans = vals[0]
-            vals.pop(0)
+            vals = q.values[1:]
+            ans = q.values[0]
             for val in vals:
                 ans -= val
             assert q.verifyAnswer(str(ans))
