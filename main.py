@@ -1,6 +1,7 @@
 from time import sleep
 import os
 
+from game import play
 from render import clear, render
 
 
@@ -11,8 +12,6 @@ def main():
     print("gsooA".center(terminal_width))
     sleep(0.5)
     print("Procedural Maths Game".center(terminal_width))
-    sleep(0.5)
-    print("By: Rin (BanaCubed)".center(terminal_width))
     sleep(0.5)
     print("-" * terminal_width)
     print("Press Enter to Start".center(terminal_width))
@@ -48,7 +47,15 @@ def menu():
             "playgame",
             "game",
         ]:
-            break
+            play()
+            render(
+                "gsooA",
+                "",
+                "| play",
+                # "| options",
+                "| exit",
+                "|",
+            )
         # elif key in [
         #     "options",
         #     "o",
@@ -70,6 +77,7 @@ def menu():
             "close",
             "closegame",
             "q",
+            "x",
         ]:
             render(
                 "gsooA",
@@ -79,17 +87,18 @@ def menu():
             )
             sleep(1)
             exit()
-        render(
-            "gsooA",
-            "",
-            "| play",
-            # "| options",
-            "| exit",
-            "|"
-            "| input could not be interpereted",
-            "| try again"
-            "|"
-        )
+        else:
+            render(
+                "gsooA",
+                "",
+                "| play",
+                # "| options",
+                "| exit",
+                "|",
+                "| input could not be interpereted",
+                "| try again",
+                "|",
+            )
 # endregion
 
 

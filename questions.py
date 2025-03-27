@@ -58,11 +58,7 @@ class Question:
         """
         Verifies whether a given answer is correct.
 
-        Args:
-        - `answer`: The answer to the question
-
-        Returns:
-        - `bool`: Whether the answer is correct
+        @param answer - the answer to check against
         """
         try:
             _answer = float(answer)
@@ -73,9 +69,9 @@ class Question:
 
     def __str__(self):
         return f"Unset Question Type - Seed: {self.seed} - Level: {self.level}"
+
+
 # endregion
-
-
 # region Addition
 class AdditionQuestion(Question):
     """
@@ -111,7 +107,8 @@ class AdditionQuestion(Question):
                 seed if seed is not None else unstableState["seed"],
                 self.minValue(level if level is not None else unstableState["level"]),
                 self.maxValue(level if level is not None else unstableState["level"])
-            )) for _ in range(2)
+            )) for _ in range(
+                math.floor((level if level is not None else unstableState["level"]) / 6) + 2)
         ]
         self.answer = sum(self.values)
 
@@ -152,11 +149,179 @@ class AdditionQuestion(Question):
             if i < len(self.values) - 1:
                 text += " + "
         return text + " = ?"
+
+
+# endregion
+# region Subtraction
+class SubtractionQuestion(Question):
+    """
+    A class for subtraction questions.
+
+    Initialization Args:
+    - `seed`: The seed used to generate the question
+    - `level`: The level of the question
+
+    Instance Properties:
+    - `seed`: The seed used to generate the question
+    - `level`: The level at which the question was generated
+    - `answer`: The correct answer to the question
+    - `values`:  list of values used to calculate the question's answer and stringification
+
+    Static Properties:
+    - `minLevel`: The minimum level that this question type can appear at
+
+    Public Methods:
+    - `verifyAnswer(answer: str) -> bool`: Verifies whether a given answer is correct
+
+    Static Methods:
+    - `minValue(level: int) -> int`: Returns the minimum value for a given level
+    - `maxValue(level: int) -> int`: Returns the maximum value for a given level
+    """
+    minLevel = 2
+
+    def __init__(self, seed: int | None = None, level: int | None = None):
+        super().__init__(seed, level)
+
+        self.values = [
+            math.floor(prng(  # "x if x is not None else y" is required here to avoid type issues
+                seed if seed is not None else unstableState["seed"],
+                self.minValue(level if level is not None else unstableState["level"], _),
+                self.maxValue(level if level is not None else unstableState["level"], _)
+            )) for _ in range(
+                math.floor((level if level is not None else unstableState["level"]) / 7) + 2)
+        ]
+        self.answer = self.values[0]
+        for value in self.values:
+            if self.values.index(value) != 0:
+                self.answer -= value
+
+    @staticmethod
+    def minValue(level: int, index: int) -> int:
+        """
+        Returns the minimum value for a given level.
+
+        Args:
+        - `level`: The level of the question
+
+        Returns:
+        - The minimum value for the given level
+        """
+        if level < SubtractionQuestion.minLevel:
+            raise ValueError(f"Level cannot be below {SubtractionQuestion.minLevel}")
+        return 0 if level >= 10 else math.ceil((1.25 ** level) * 7 * (0.5 ** index) / 2)
+
+    @staticmethod
+    def maxValue(level: int, index: int) -> int:
+        """
+        Returns the maximum value for a given level.
+
+        Args:
+        - `level`: The level of the question
+
+        Returns:
+        - The maximum value for the given level
+        """
+        if level < SubtractionQuestion.minLevel:
+            raise ValueError(f"Level cannot be below {SubtractionQuestion.minLevel}")
+        return math.ceil(
+            (1.25 ** level) * 7 * (0.5 ** index)
+        ) if level < 10 else math.ceil((1.25 ** level) * 7)
+
+    def __str__(self):
+        text = ""
+        for i in range(len(self.values)):
+            text += f"{self.values[i]}"
+            if i < len(self.values) - 1:
+                text += " - "
+        return text + " = ?"
+
+
+# endregion
+# region Multiplication
+class MultiplicationQuestion(Question):
+    """
+    A class for multiplication questions.
+
+    Initialization Args:
+    - `seed`: The seed used to generate the question
+    - `level`: The level of the question
+
+    Instance Properties:
+    - `seed`: The seed used to generate the question
+    - `level`: The level at which the question was generated
+    - `answer`: The correct answer to the question
+    - `values`:  list of values used to calculate the question's answer and stringification
+
+    Static Properties:
+    - `minLevel`: The minimum level that this question type can appear at
+
+    Public Methods:
+    - `verifyAnswer(answer: str) -> bool`: Verifies whether a given answer is correct
+
+    Static Methods:
+    - `minValue(level: int) -> int`: Returns the minimum value for a given level
+    - `maxValue(level: int) -> int`: Returns the maximum value for a given level
+    """
+    minLevel = 3
+
+    def __init__(self, seed: int | None = None, level: int | None = None):
+        super().__init__(seed, level)
+
+        self.values = [
+            math.floor(prng(  # "x if x is not None else y" is required here to avoid type issues
+                seed if seed is not None else unstableState["seed"],
+                self.minValue(level if level is not None else unstableState["level"], _),
+                self.maxValue(level if level is not None else unstableState["level"], _)
+            )) for _ in range(2)
+        ]
+        self.answer = math.prod(self.values)
+
+    @staticmethod
+    def minValue(level: int, index: int) -> int:
+        """
+        Returns the minimum value for a given level.
+
+        Args:
+        - `level`: The level of the question
+
+        Returns:
+        - The minimum value for the given level
+        """
+        if level < MultiplicationQuestion.minLevel:
+            raise ValueError(f"Level cannot be below {MultiplicationQuestion.minLevel}")
+        return 0 if level >= 6 else 3
+
+    @staticmethod
+    def maxValue(level: int, index: int) -> int:
+        """
+        Returns the maximum value for a given level.
+
+        Args:
+        - `level`: The level of the question
+
+        Returns:
+        - The maximum value for the given level
+        """
+        if level < MultiplicationQuestion.minLevel:
+            raise ValueError(f"Level cannot be below {MultiplicationQuestion.minLevel}")
+        return math.ceil(0.6 * level ** 1.2) + 4
+
+    def __str__(self):
+        text = ""
+        for i in range(len(self.values)):
+            text += f"{self.values[i]}"
+            if i < len(self.values) - 1:
+                text += " x "
+        return text + " = ?"
 # endregion
 
 
 # region Collection
-questionTypes: list[type[Question]] = [AdditionQuestion]
+questionTypes: list[type[Question]] = [
+    AdditionQuestion,
+    SubtractionQuestion,
+    MultiplicationQuestion,
+]
 """
 A list of all question types.
 
@@ -205,8 +370,3 @@ def generateQuestion(seed: int | None = None, level: int | None = None) -> Quest
     question = questionType(seed, level)
     return question
 # endregion
-
-
-if __name__ == "__main__":
-    for i in range(200):
-        print(generateQuestion(None, 50).answer)
